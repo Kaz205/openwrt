@@ -1,0 +1,34 @@
+From 159ccd3df43df045c27ab71c078d2b5b8cc5ef05 Mon Sep 17 00:00:00 2001
+From: Kazuki H <kazukih0205@gmail.com>
+Date: Thu, 28 Sep 2023 09:22:53 +0900
+Subject: [PATCH 3/3] SBalance: Fix build
+
+---
+ kernel/irq/sbalance.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/irq/sbalance.c b/kernel/irq/sbalance.c
+index 7837e89e2ff9..608b5f536179 100644
+--- a/kernel/irq/sbalance.c
++++ b/kernel/irq/sbalance.c
+@@ -27,6 +27,7 @@
+ 
+ #define pr_fmt(fmt) "sbalance: " fmt
+ 
++#include <linux/sched/cputime.h>
+ #include <linux/freezer.h>
+ #include <linux/irq.h>
+ #include <linux/list_sort.h>
+@@ -347,7 +348,8 @@ static int __noreturn sbalance_thread(void *data)
+ 
+ 	set_freezable();
+ 	while (1) {
+-		freezable_schedule_timeout_interruptible(poll_jiffies);
++		__set_current_state(TASK_INTERRUPTIBLE|TASK_FREEZABLE);
++		schedule_timeout(poll_jiffies);
+ 		balance_irqs();
+ 	}
+ }
+-- 
+2.43.0
+

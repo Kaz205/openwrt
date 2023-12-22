@@ -1,0 +1,26 @@
+From a60b88f3b240a6724752ce891a02e7c310ab5c44 Mon Sep 17 00:00:00 2001
+From: Kazuki H <kazukih0205@gmail.com>
+Date: Fri, 22 Dec 2023 21:33:42 +0900
+Subject: [PATCH] sbalance: Enable by default
+
+Signed-off-by: Kazuki H <kazukih0205@gmail.com>
+---
+ kernel/irq/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/irq/Kconfig b/kernel/irq/Kconfig
+index d06145644515..15e9bc8882da 100644
+--- a/kernel/irq/Kconfig
++++ b/kernel/irq/Kconfig
+@@ -140,7 +140,7 @@ config GENERIC_IRQ_DEBUGFS
+ config IRQ_SBALANCE
+ 	bool "SBalance IRQ balancer"
+ 	depends on SMP
+-	default n
++	default y
+ 	help
+ 	  This is a simple IRQ balancer that polls every X number of
+ 	  milliseconds and moves IRQs from the most interrupt-heavy CPU to the
+-- 
+2.43.0
+
